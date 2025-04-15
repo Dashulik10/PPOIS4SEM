@@ -1,4 +1,5 @@
 from Projects.src.Person.Speaker.report import Report
+from Projects.src.Person.Speaker.speaker import Speaker
 from Projects.src.Person.person import *
 
 class Request:
@@ -44,7 +45,23 @@ class Request:
     def change_status(self, new_status):
         self.status = new_status
 
+
     def __str__(self):
         return (f"Заявка от: {self.applicant.first_name} {self.applicant.second_name}\n"
                 f"Доклад: {self.report.name_of_report}\n" 
                 f"Статус: {self.status}")
+
+    def to_dict(self):
+        return {
+            "applicant": self.applicant.to_dict(),
+            "report": self.report.to_dict(),
+            "status": self.status
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            applicant=Speaker.from_dict(data["applicant"]),
+            report=Report.from_dict(data["report"]),
+            status=data["status"]
+        )

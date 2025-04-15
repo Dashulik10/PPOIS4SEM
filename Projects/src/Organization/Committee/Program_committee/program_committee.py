@@ -1,5 +1,6 @@
 from Projects.src.Organization.Committee.Program_committee.basic_program_committee import *
 from datetime import datetime, timedelta
+from Projects.src.Person.Speaker.speaker import *
 
 class ProgramCommittee(BasicProgramCommittee):
     FIELD_OF_BIOLOGY = {
@@ -91,5 +92,29 @@ class ProgramCommittee(BasicProgramCommittee):
             print("Председатель организационного комитета: ")
             print(self.chairman)
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "email": self.email,
+            "members": [member.to_dict() for member in self.members],
+            "chairman": self.chairman.to_dict() if self.chairman else None,
+            "topics": list(self.topics),  # Сохраняем темы (если они существуют)
+        }
 
+    @classmethod
+    def from_dict(cls, data):
+        committee = cls(
+            name=data["name"],
+            email=data["email"],
+            members=set(),
+            chairman=Person.from_dict(data["chairman"]) if data.get("chairman") else None,
+        )
+        # Восстановление тем и участников
+        if "topics" in data:
+            committee.topics = set(data["topics"])
+        if "members" in data:
+            for member_data in data["members"]:
+                member = Speaker.from_dict(member_data)
+                committee.members.add(member)
+        return committee
 

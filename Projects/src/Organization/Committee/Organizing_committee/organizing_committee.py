@@ -1,11 +1,12 @@
 from Projects.src.Organization.Committee.Program_committee.basic_program_committee import *
 from Projects.src.Organization.Committee.Organizing_committee.venue import Venue
+from Projects.src.Person.Organizer.organizer import *
 
 class OrganizingCommittee(BasicCommittee):
 
     _venue: Venue
 
-    def __init__(self, *, name, email, members, chairman, venue):
+    def __init__(self, *, name, email, members, chairman, venue: Venue):
         if not hasattr(self, '_venue_initialized'):
             super().__init__(
                 name=name,
@@ -13,7 +14,7 @@ class OrganizingCommittee(BasicCommittee):
                 members=members,
                 chairman=chairman
             )
-            self._venue = venue
+            self.venue = venue
             self._venue_initialized = True
 
     @property
@@ -46,3 +47,29 @@ class OrganizingCommittee(BasicCommittee):
         return (f"Организационный комитет:\n"
                 f"Председатель: {self.chairman}\n"
                 f"Количество членов: {len(self.members)}")
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "email": self.email,
+            "members": [member.to_dict() for member in self.members],
+            "chairman": self.chairman.to_dict() if self.chairman else None,
+            "venue": self.venue.to_dict(),
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        venue = Venue.from_dict(data["venue"]) if "venue" in data else None
+        committee = cls(
+            name=data["name"],
+            email=data["email"],
+            members=set(),
+            chairman=Person.from_dict(data["chairman"]) if data.get("chairman") else None,
+            venue=venue
+        )
+        # Восстановление участников
+        if "members" in data:
+            for member_data in data["members"]:
+                member = Organizer.from_dict(member_data)
+                committee.members.add(member)
+                return committee

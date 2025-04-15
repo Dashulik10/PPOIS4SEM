@@ -62,3 +62,20 @@ class Person:
                 f"Фамилия: {self._second_name}\n"
                 f"Возраст: {self._age}\n"
                 f"Почта для связи: {self._email}\n")
+
+    def to_dict(self):
+        return {
+            "first_name": self.first_name,
+            "second_name": self.second_name,
+            "age": self.age,
+            "email": self.email,
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            first_name=data["first_name"],
+            second_name=data["second_name"],
+            age=data["age"],
+            email=data["email"],
+        )

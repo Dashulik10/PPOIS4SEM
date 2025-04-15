@@ -66,3 +66,11 @@ class Report:
                 f"Тема доклада: {self.topic_of_report}\n"
                 f"Дата публикации: {self.date_of_report}\n"
                 f"Аннотация:\n{self.annotation}\n")
+
+    def to_dict(self):
+        return {
+            "name_of_report": self.name_of_report,
+            "date_of_report": self.date_of_report.strftime("%Y-%m-%d"),
+            "annotation": self.annotation,
+            "topic_of_report": self.topic_of_report,
+        }

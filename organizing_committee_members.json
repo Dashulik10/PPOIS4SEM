@@ -1,0 +1,16 @@
+[
+    {
+        "first_name": "Вадим",
+        "second_name": "Казаченко",
+        "age": 20,
+        "email": "KazaKKKKK@gmail.com",
+        "area_of_expertise": 4
+    },
+    {
+        "first_name": "Елисей",
+        "second_name": "Римонт",
+        "age": 18,
+        "email": "formylaElisey@gmail.com",
+        "area_of_expertise": 2
+    }
+]

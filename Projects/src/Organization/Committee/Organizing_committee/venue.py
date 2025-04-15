@@ -9,6 +9,6 @@ class Venue:
         self._capacity = capacity
 
     def __str__(self):
-        return (f"Место проведения: {self.name}\n"
-                f"Адрес: {self.address}\n"
-                f"Вместимость: {self.capacity} человек")
+        return (f"Место проведения: {self._name}\n"
+                f"Адрес: {self._address}\n"
+                f"Вместимость: {self._capacity} человек")

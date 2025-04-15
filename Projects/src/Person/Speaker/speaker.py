@@ -15,14 +15,6 @@ class Speaker(Person):
                          age=age,
                          email=email)
 
-        '''if program_committee:
-            if self._is_valid_topic(area_of_expertise, program_committee):
-                self._area_of_expertise = area_of_expertise
-            else:
-                raise ValueError("Неправильная тема.")
-        else:
-            self._area_of_expertise = area_of_expertise'''
-
         self._area_of_expertise = area_of_expertise
         self.report = report
 
@@ -34,17 +26,6 @@ class Speaker(Person):
     def area_of_expertise(self, topic_of_report):
             self._area_of_expertise = topic_of_report
 
-    '''@staticmethod
-    def _is_valid_topic(topic: str, program_committee):
-        from Projects.src.Organization.Committee.Program_committee.program_committee import ProgramCommittee
-        return any(topic in field for field in program_committee.LIST_OF_SETS_OF_TOPICS)
-    def set_topic_and_expertise(self, report: Report, program_committee: ProgramCommittee):
-        if self._is_valid_topic(report._topic_of_report, program_committee):
-            self._area_of_expertise = report._topic_of_report
-        else:
-            raise ValueError("тема доклада не соответствует области знаний.")
-        self.report = report'''
-
     def __str__(self):
         report_doc = self.report.__str__()
         return (f"Докладчик: {self.first_name} {self.second_name}\n"
@@ -52,3 +33,10 @@ class Speaker(Person):
                 f"Почта: {self.email}\n"
                 f"{report_doc}"
                 )
+
+    def to_dict(self):
+        data = super().to_dict()
+        data.update({
+            "report": self.report.to_dict() if self.report else None,
+        })
+        return data

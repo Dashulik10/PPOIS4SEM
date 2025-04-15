@@ -8,7 +8,18 @@ from Projects.src.Organization.Precreation.precreation_committee import precreat
 from Projects.src.Person.Organizer.organizer import Organizer
 from Projects.src.Person.Speaker.speaker import Speaker
 from Projects.src.Person.Speaker.report import Report
+import json
 
+
+def save_members_to_json(members, filename):
+    """Сохранение списка участников в JSON-файл."""
+    try:
+        with open(filename, 'w', encoding='utf-8') as file:
+            members_as_dicts = [member.__dict__ for member in members]
+            json.dump(members_as_dicts, file, ensure_ascii=False, indent=4)
+        print(f"Список участников успешно сохранен в файл {filename}.")
+    except Exception as e:
+        print(f"Ошибка при сохранении файла {filename}: {e}")
 
 def start():
     while True:
@@ -51,6 +62,7 @@ def show_menu():
     print("9. Вывод программы конференции.") # done
     print("10. Старт.")
     print("11. Досрочное завершение.")
+    print("12. Сохранить списки участников в файлы JSON.")
 
 
 def main():
@@ -190,6 +202,10 @@ def main():
 
             elif choice == 11:
                 exit()
+
+            elif choice == 12:
+                save_members_to_json(list(program_committee.members), 'program_committee_members.json')
+                save_members_to_json(list(org_committee.members), 'organizational_committee_members.json')
 
             else:
                 print("Некорректный выбор. Попробуйте ещё раз.")

@@ -14,6 +14,10 @@ class BasicProgramCommittee(BasicCommittee):
             )
             self._topics = topics
             self._topics_initialized = True
+            self.requests = []
+
+            def add_request(self, request):
+                self.requests.append(request)
 
     @property
     def topics(self):
